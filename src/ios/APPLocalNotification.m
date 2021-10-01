@@ -498,8 +498,10 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
               willPresentNotification:notification
                 withCompletionHandler:handler];
 
-    if ([toast.trigger isKindOfClass:UNPushNotificationTrigger.class])
+    if ([toast.trigger isKindOfClass:UNPushNotificationTrigger.class]) {
+        [_delegate userNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
         return;
+    }
 
     APPNotificationOptions* options = toast.options;
 
@@ -532,8 +534,10 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
 
     handler();
 
-    if ([toast.trigger isKindOfClass:UNPushNotificationTrigger.class])
+    if ([toast.trigger isKindOfClass:UNPushNotificationTrigger.class]) {
+        [_delegate userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
         return;
+    }
 
     NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
     NSString* action          = response.actionIdentifier;
